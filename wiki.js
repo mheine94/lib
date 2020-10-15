@@ -1,4 +1,4 @@
-export class wiki {
+export default class wiki {
 	static async search(language, query) {
 		console.log('search', language, query)
 		let result = await fetch(`https://${language}.wikipedia.org/w/api.php?action=query&list=search&srsearch=${query}&format=json&origin=*`).then(x => x.json());
