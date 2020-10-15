@@ -1,0 +1,24 @@
+<a id='save'>save</a>
+<a id='copy'>copy</a>
+
+<script type='module'>
+import  './array.js';
+console.log('unique',[1,2,2,3,4,2].unique())
+
+import  './string.js';
+console.log('titleCase','crazy SHIT mAm'.toTitleCase())
+
+
+import * as data from './data.js';
+
+
+let dat = data.merge(
+	{a:1,b:{c:[1,2,3],d:1}},
+	{a:1,b:{c:[3,4,5],e:2}},
+)
+console.log('dat',dat)
+
+document.querySelector('#copy').addEventListener('click',e=>data.copy('123'))
+document.querySelector('#save').addEventListener('click',e=>data.save('123','test.txt','text/plain'))
+
+</script>
