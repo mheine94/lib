@@ -12,6 +12,18 @@ export function copy(text) {
     document.execCommand("copy");
     document.body.removeChild(dummy);
 }
+// function copyToClipboard(text){
+//     // console.log('copy',text);
+//     var textarea = document.createElement("textarea");
+//     textarea.value = text;
+//     textarea.style.opacity = 0;
+//     document.body.appendChild(textarea);
+//     textarea.select();
+//     // console.log('textarea',textarea);
+//     document.execCommand('copy');
+//     textarea.remove();
+// }
+
 
 
 // save data to file
