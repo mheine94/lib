@@ -18,7 +18,7 @@ document.head.insertAdjacentHTML('beforeend', `
     }
 
     .denom {
-        border-top: 1px solid var(--line-color);
+        border-top: 1px solid var(--line-color, black);
     }
 </style>
     

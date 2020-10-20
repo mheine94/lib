@@ -23,5 +23,11 @@
 	document.querySelector('#copy').addEventListener('click', e => data.copy('123'))
 	document.querySelector('#save').addEventListener('click', e => data.save('123', 'test.txt', 'text/plain'))
 
+	import wiki from './wiki.js';
+	wiki.search('de', 'telgte').then(x => console.log('wiki.search', x))
 
+
+	import './frac-tion.tag.js';
 </script>
+
+<frac-tion n='10' d='20'></frac-tion>
