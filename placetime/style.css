@@ -1,0 +1,117 @@
+
+	html {
+		--monospace: inconsolata;
+	}
+
+	section {
+		text-align: center;
+	}
+
+	code {
+
+		font-size: 25px;
+		display: block;
+	}
+
+	#code td {
+		font-family: var(--monospace, inconsolata);
+	}
+
+	/*h1{font-size: 30px; font-weight: 500; margin-top: 5px; margin-bottom: 10px;}*/
+	/*span{font-size: 30px;}*/
+	/*p{font-size: 17px;}*/
+	/* div{font-size: 1.2rem; margin: 5px; font-family: "Source Code Pro";} */
+	/*icon {font-family: Quicksand;}*/
+	i {
+		display: inline;
+		font-style: normal;
+	}
+
+	input {
+		border: none;
+		width: 40%;
+	}
+
+	#position {
+		width: 100%;
+	}
+
+	#code {
+		width: 10px;
+		margin: 0 auto;
+		font-size: 25px;
+	}
+
+	#code td:nth-child(1) {
+		padding: 5px;
+	}
+
+	#code td:nth-child(3) {
+		padding: 5px;
+	}
+
+	/* #code td:nth-child(2){font-family: "Source Code Pro";} */
+	/* #code td:nth-child(4){font-family: "Source Code Pro";} */
+	td {
+		text-align: center;
+		width: 10%;
+	}
+
+	p {
+		margin: 20px 10px;
+		line-height: 1.2em;
+	}
+
+	code {
+		font-family: "Source Code Pro";
+		letter-spacing: 2px;
+		width: 100%;
+		display: block;
+	}
+
+	h3 {
+		margin-top: 3rem;
+	}
+
+	img {
+		width: 32px;
+		vertical-align: bottom;
+	}
+
+	i {
+		color: gray;
+		font-style: normal;
+	}
+
+	#icons {
+		width: 10px;
+		margin: 0 auto;
+		font-size: 1.1rem;
+		/* font-family: Quicksand; */
+	}
+
+	#icons th {
+		font-size: 0.8rem;
+		color: gray;
+		text-transform: uppercase;
+		font-weight: 300;
+	}
+
+	#icons td {
+		padding: 10px;
+	}
+
+	#icons td:nth-child(3) {
+		font-size: 1.4rem;
+	}
+
+	#icons td:nth-child(5) {
+		font-size: 0.9rem;
+	}
+
+	/* #icons td:nth-child(4) {font-family: "Source Code Pro"; font-weight: 300; font-size: 0.9rem; color: #555;} */
+	.overX {
+		overflow-x: scroll;
+		overflow-y: hidden;
+		-webkit-overflow-scrolling: touch
+	}

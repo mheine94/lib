@@ -1,0 +1,409 @@
+<meta content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no'
+	name='viewport' />
+
+<script src='./date.format.js'></script>
+<script src='dts.js'></script>
+<script src='P60.js'></script>
+
+<style>
+	@import url('https://max.pub/css/base.css');
+	@import url('https://max.pub/css/publicSans.css');
+	@import url('https://max.pub/css/inconsolata.css');
+
+	html {
+		--monospace: inconsolata;
+		/* font-size: 25px; */
+	}
+
+	.monospace * {
+		font-family: var(--monospace, inconsolata);
+		font-size: 20px;
+	}
+
+	section {
+		text-align: center;
+	}
+
+	table {
+		margin: 0 auto;
+		/* width: 80%; */
+	}
+
+	#icons {
+		width: 80%;
+	}
+
+	td {
+		text-align: center;
+	}
+
+	td[id] {
+		padding-right: .5rem;
+	}
+
+	h1,
+	h2,
+	h3 {
+		margin-top: 5rem;
+		font-weight: normal;
+	}
+
+	p {
+		text-align: center;
+	}
+
+	img {
+		filter: invert(100%);
+		width: 32px;
+	}
+
+	.unicode {
+		font-size: 30px;
+	}
+</style>
+
+<article>
+	<section>
+		<h1>Place + Time </h1>
+		<p>
+			This is an attempt to unify and shorten place &amp; time notation.
+			It looks like this:
+		</p>
+		<!-- https://www.compart.com/en/unicode/search?q=circle#characters -->
+		<table class='monospace'>
+			<tr>
+				<!-- &#9634;&#11036; -->
+				<td class='unicode'>&#9744;</td>
+				<td id='date-code'></td>
+				<!-- &#9711;&#9675; -->
+				<td class='unicode'>&#11096;</td>
+				<td id='time-code'></td>
+			</tr>
+			<tr>
+				<td class='unicode'>&#9661;</td>
+				<td id='lat-code'></td>
+				<td class='unicode'>&#9655;</td>
+				<td id='lon-code'></td>
+			</tr>
+		</table>
+
+
+		<p>correspondig to the traditional notation below</p>
+
+		<table class='monospace'>
+			<tr>
+				<td id='date-orig'></td>
+				<td id='time-orig'></td>
+			</tr>
+			<tr>
+				<td id='lat-orig'></td>
+				<td id='lon-orig'></td>
+			</tr>
+		</table>
+
+
+
+		<h3>Icons</h3>
+		<p>
+			In addition a new set of icons was conceived to easily identify the new code.
+		</p>
+
+		<!-- <div class="overX"> -->
+		<table id='icons' class='monospace'>
+			<tr>
+				<th>Icon</th>
+				<th></th>
+				<th>Symbol</th>
+				<th>Unicode</th>
+				<th></th>
+			</tr>
+			<tr>
+				<td><img src='ico/calendar.png' /></td>
+				<td>&rarr;</td>
+				<td class='unicode'>&#9744;</td>
+				<td>&amp;#9744;</td>
+				<td>DATE</td>
+			</tr>
+			<tr>
+				<td><img src='ico/clock.png' /></td>
+				<td>&rarr;</td>
+				<td class='unicode'>&#11096;</td>
+				<td>&amp;#11096;</td>
+				<td>TIME</td>
+			</tr>
+			<tr>
+				<td><img src='ico/location.png' /></td>
+				<td>&rarr;</td>
+				<td class='unicode'>&#9661;</td>
+				<td>&amp;#9661;</td>
+				<td>LATITUDE</td>
+			</tr>
+			<tr>
+				<td><img src='ico/location.png' style="transform: rotate(270deg);" /></td>
+				<td>&rarr;</td>
+				<td class='unicode'>&#9655;</td>
+				<td>&amp;#9655;</td>
+				<td>LONGITUDE</td>
+			</tr>
+		</table>
+		<!-- </div> -->
+
+
+		<p>
+			Properly arranged it looks as follows
+		</p>
+
+
+		<table class='monospace'>
+			<tr>
+				<td>&#9634;</td>
+				<td>DATE</td>
+				<td>&#9711;</td>
+				<td>TIME</td>
+			</tr>
+			<tr>
+				<td>&#9661;</td>
+				<td>LAT</td>
+				<td>&#9655;</td>
+				<td>LON</td>
+			</tr>
+		</table>
+
+		<!-- 		<p>
+			<img src='ico/calendar.png'/>  &rarr; &#9634; &rarr; DATE (Unicode <i>&amp;#9634;</i>)
+			<br/>
+			<img src='ico/clock.png'/>  &rarr; &#9711; &rarr; TIME (Unicode <i>&amp;#9711;</i>)
+
+		</p>
+ 		<p>
+			A square represents a calendar and thus the date.<br/>
+			A circle symbolizes a clock and represents the time.<br/>
+			In analogy to a map-marker, the down-facing triangle represents the latitude (north-south coordinates).<br/>
+			The right-facing triangle represents the longitude (east-west coordinates).
+		</p>
+ -->
+
+
+
+		<h3>Base</h3>
+		<p>
+			Due to the duodecimal nature of the traditional notation
+			a specific alphanumerical base of 4 &times; 15 = 60 characters is used
+			to make human conversion easier.
+		</p>
+		<code class="overX monospace">
+			ABCDEFGHIJKLMNO<br/>
+			PQRSTUVWXY01234<br/>
+			abcdefghijklmno<br/>
+			pqrstuvwxy56789
+		</code>
+
+
+
+		<p>
+			Now have a look at the conversion in detail.
+		</p>
+	</section>
+
+	<section>
+		<h2>&#9634; Date</h2>
+		<div id='date-orig' onkeyup="encode('date')" contenteditable="true"></div>
+		<div>&ShortDownArrow;</div>
+		<div id='date-code' onkeyup="decode('date')" contenteditable="true"></div>
+		<p>
+			The last digit represents a double-month
+			(up to 62 days with the full alphanumerical base).
+		</p>
+		<p>
+			The next-to-last digit represents a decade
+			(60 double months).
+		</p>
+		<p>
+			The remaining digits use a reduced base (A-Ya-y)
+			to represent a "pentakose" (500 years = 50 decades), then 25.000 years, ...
+		</p>
+		<p>
+			The root of a 4-digit date is the year 20.000 BC,
+			so that everything up to 5.000 AC is covered.
+			<!-- The describable date spans 600 years from 1500 - 2100. For longer periods an optional fourth digit is needed. -->
+			<!-- The last two digits span exactly one decade (60 double-months).  -->
+		</p>
+	</section>
+
+	<section>
+		<h2>&xcirc; Time</h2>
+		<div id='time-orig' onkeyup="encode('time')" onfocus='userTime=true;' contenteditable="true"></div>
+		<div>&ShortDownArrow;</div>
+		<div id='time-code' onkeyup="decode('time')" contenteditable="true"></div>
+		<p>
+			The three digits relate closely to traditional time-description. The first digit represents the hour,
+			the second the minute, the third the second.
+			<!-- 			The following base is used to easily tell the first from the second half of the minute/second.
+			(ABCDEFGHIJKLMNOPQRSTUVWXY01234 abcdefghijklmnopqrstuvwxy56789)
+ -->
+		</p>
+	</section>
+
+	<section>
+		<h2>&bigtriangledown; Latitude</h2>
+		<table id='position'>
+			<tr>
+				<td>
+					<div id='lat-orig' onkeyup="encode('lat')" contenteditable="true"></div>
+					<div>&ShortDownArrow;</div>
+					<div id='lat-code' onkeyup="decode('lat')" contenteditable="true"></div>
+				</td>
+				<td>
+					<div id='lon-orig' onkeyup="encode('lon')" contenteditable="true"></div>
+					<div>&ShortDownArrow;</div>
+					<div id='lon-code' onkeyup="decode('lon')" contenteditable="true"></div>
+				</td>
+			</tr>
+		</table>
+		<!-- 		<span id='space' onkeyup="encode('space')"  contenteditable="true"></span>
+		&ShortDownArrow;
+		<span id='spaceCode' onkeyup="decode('space')" contenteditable="true"></span>
+		or
+		<span id='spaceCode2' onkeyup="decode('space')" contenteditable="true"></span>
+ -->
+		<p>
+			The first two digits span the same 11km&sup2;-raster on the globe as the traditional notation (360 degrees +
+			one decimal).
+		</p>
+		<p>
+			One digit has an accuracy of 666km.
+			Two digits have an accuracy of 11km.
+			Three digits have an accuracy of 180m.
+			Four digits have an accuracy of 3m.
+			Five digits have an accuracy of 5cm.
+		</p>
+	</section>
+
+
+	<section>
+		<h2>&#9655; Longitude</h2>
+	</section>
+</article>
+
+
+
+<script>
+	$ = id => document.getElementById(id);
+	$$ = q => document.querySelectorAll(q);
+
+	// encode = k => $(k+'Code').innerHTML = DTS[k].encode($(k).innerHTML);
+	// decode = k => $(k).innerHTML = DTS[k].decode($(k+'Code').innerHTML);
+	// copyCode = (k) => $(k+'-code').innerHTML = $(k+'Code').innerHTML;
+
+	ENC = (id, f) => SET(id + '-code', f(GET(id + '-orig')).substr(0, 3));
+
+	GET = (id) => $(id).innerHTML;
+	SET = (id, v) => $$('#' + id).forEach(node => node.innerHTML = v);
+
+	// -54.807, -68.325  USHUAIA
+
+
+	userTime = false;
+	updateTime = () => {
+		if (userTime) return;
+		SET('time-orig', new Date().format('hh:mm:ss')); //dt[1].replace('.',':').replace('.',':');
+		ENC('time', DTS.time.encode);
+		// encode('time');
+		// copyCode('time');
+	};
+	updateTime();
+	setInterval(updateTime, 1000);
+
+	SET('date-orig', new Date().format('YYYY-MM-DD'));
+	ENC('date', DTS.date.encode);
+	// $('date').innerHTML = new Date().format('YYYY-MM-DD'); 
+	// encode('date');
+	// copyCode('date');
+
+	fetch('https://api.max.pub/geoip/').then(x => x.json())
+		.then(data => {
+			SET('lat-orig', data.lat + '' + (Math.floor(Math.random() * 10) + ''));//.padStart(4,'0');
+			ENC('lat', P60.enc);
+			// copyCode('lat');
+
+			SET('lon-orig', data.lon + '' + Math.floor(Math.random() * 10));
+			ENC('lon', P60.enc);
+			// copyCode('lon');
+		})
+
+
+
+		// $('city').innerHTML = data.city;
+		// $('space').innerHTML = data.lon.toFixed(4)+' , '+data.lat.toFixed(4);
+		// var ll = $('space').innerHTML.split(',');
+		// var v = DTS.space.encode(ll[0],ll[1],3,1);
+		// $('spaceCode2').innerHTML = v
+		// copyCode('lat',v.split(':')[1]);
+		// copyCode('lon',v.split(':')[0]);
+
+</script>
+
+
+
+
+
+<!-- <div><icon>&#9634;</icon> DATE &#9711; TIME</div> -->
+<!-- <div><icon>&#9661;</icon> LAT &#9655; LON</div> -->
+<!-- <div>&#9634; <i id='date-code'></i> &#9711; <i id='time-code'></i></div> -->
+<!-- <div>&#9661; <i id='lat-code'></i> &#9655; <i id='lon-code'></i></div> -->
+
+
+
+<!-- &triangleleft; -->
+<!-- &triangleright; -->
+
+<!-- 		&#9634; DATE <br/>
+		&#9711; TIME <br/>
+		&#9661; LAT <br/>
+		&#9655; LON <br/>
+		<br/>
+ -->
+<!-- 
+<br/>
+<br/>
+
+&xcirc;&#9711;
+&EmptySmallSquare;&#9634;
+&bigtriangledown;&#9661;
+ -->
+
+<!-- 
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
+&#9634; dF3 <br/>
+&#9711; M3k <br/>
+&#9661; q3FKfL9a <br/>
+&#9661; q3FK:fL9a <br/>
+&#9661; q3.FK.fL.9a.vY <br/>
+600km - 10km - 200m - 3m - 5cm
+countries - cities - poperties - cars - rats
+
+<br/>
+&#9724; dF3 <br/>
+&#9679; M3k <br/>
+&#9660; q3FK:fL9a <br/>
+
+
+500 Jahre = pentakosa ... eine pentakose
+
+300 vor christus: entstehung der stoa-lehre
+
+1700-2200 standard-pentakose
+ab da jede stell mal 60... 30 links, 30 rechts der mitte...
+
+oder hexakose
+1700-2300
+zentriert im jahr 2000
+
+hexakonta = 60
+hexakosa = 600 
+-->

@@ -1,0 +1,129 @@
+<meta content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no' name='viewport' />
+
+<link href="lib.css" rel="stylesheet"/>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.14.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.14.0/plugins/unescaped-markup/prism-unescaped-markup.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.14.0/plugins/unescaped-markup/prism-unescaped-markup.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.14.0/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+
+
+<script src='pushstate.js'></script>
+<script>PushState.root = '/PushState/';</script>
+
+
+
+<style>
+	a{display: inline-block; padding: 5px;}
+	center{display: block; margin: 1rem;}
+	#tabs>div{border: 1px solid #ccc; min-height:50px; padding: 10px;}
+	.currentState{background: #eee;}
+	pre{margin:0 !important; border-radius: 5px;}
+	header{display: flex; flex-flow: row wrap; justify-content: space-around;}
+	i{color: gray; font-style: normal;}
+	li{ margin: 10px; }
+
+</style>
+
+
+
+<main>
+
+<section>
+	<h1>PushState.js</h1>
+
+	<center>Lighweight PushState-Library</center>
+	<center> &lt;1kb minified &amp; gzipped</center>
+
+	<center><a href='/pushstate.js' noState>download</a></center>
+	<br/>
+	<center>Tabbed navigation as a simple demo</center>
+
+	<div id='tabs'>
+		<header>
+			<a href='/links'>Links</a>
+			<a href='/views'>Views</a>
+			<a href="/more">More</a>
+		</header>
+
+		<div>
+			<div on-state='/'>click a tab above</div>
+			<div on-state='/links'>
+				<li>Use standard <i>A[href]</i> - links. They're converted to push-state-links on-the-fly.
+				<li>Additionally all links pointing to the current state receive a <i>.currentState</i> - class for easy styling.
+			</div>
+			<div on-state='/views'>
+				<li>Just add an <i>[on-state]</i>-Attribute to any element to show/hide it depending on the app-state.
+				<li>If you prefer, you can use Custom Elements, too, via the <i>&lt;push-state&gt;</i> tag.
+				<li>RegEx-Selectors are also supported, like <i>on-state="/user([0-9]+)"</i>
+			</div>
+			<div on-state='/more'></div>
+			<push-state match='/more'> 
+				<li>Custom Elements are also supported.
+				<li>Works not only on root-domains, but in subfolders, too	
+			</push-state>
+		</div>
+	</div>
+	
+	<br/>
+	<br/>
+	<p>The tabbed navigation above uses only the following minimal code:</p>
+
+<pre class="language-markup"><code><!--<script src='pushstate.js'></script>
+
+<a href='/DOM'>DOM</a>
+<a href='/user123'>RegEx</a>
+<a href='/more'>More</a>
+
+<div on-state='/'>...</div>
+<div on-state='/DOM'>...</div>
+<push-state match='/more'>...</push-state>
+
+--></code></pre>
+</section>
+
+
+</main>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 	
+	<br/><br/>
+	<div>
+		random number to hint at page reloads:
+		<span id='rand'>abc</span>
+		<script>document.querySelector('#rand').innerHTML = Math.round(Math.random()*1000);</script>
+	</div>
+	<br/><br/>
+ -->
+
+
+<!-- 	
+	/*html{font-family: Helvetica; font-size: 20px; font-weight: 300;}*/
+	/*a{text-decoration: none; color: #333; display: inline-block;}*/
+	/*#tabs{ width: 400px; margin: 0 auto; }*/
+ -->
+
+<!-- <link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+ -->
+<!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" rel="stylesheet"/> -->
+<!-- <link href="//lib.max.pub/min.css" rel="stylesheet"/> -->
+<!-- <script src='state.change.js'></script> -->
+<!-- <script src='state.mark.js'></script> -->
+<!-- <script src='state.view.js'></script> -->

@@ -1,0 +1,51 @@
+<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+
+
+<script src='tap.js'></script>
+
+
+<button onclick="doSth()">HTML Body</button>
+
+
+<template id="tap-demo">
+	<button onclick="doSth">CustomElement</button>
+</template>
+<tap-demo></tap-demo>
+
+
+<!-- <input type="file" accept="image/*"> -->
+
+
+
+
+<script>
+
+	function doSth(){
+		LOG('Global Function');
+	}
+
+
+	if(!window.customElements) window.customElements = {define:()=>{}};
+	
+	window.customElements.define('tap-demo', class extends HTMLElement {
+		constructor() {
+			super();
+			this.attachShadow({mode: 'open'}).appendChild(document.querySelector('#tap-demo').content.cloneNode(true));
+		}
+	    doSth(){
+	    	LOG('Custom Element');
+	    }
+	});
+
+
+
+
+
+	// display log
+	TT = NOW();
+	LOG = m => document.getElementById("log").insertAdjacentHTML('afterbegin', `<li>[${Math.round(NOW()-TT)}]: ${m}</li>`);
+	
+</script>
+
+
+<ul id='log'></ul>
