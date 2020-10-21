@@ -1,9 +1,6 @@
 <meta content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no'
 	name='viewport' />
 
-<script src='./date.format.js'></script>
-<script src='dts.js'></script>
-<script src='P60.js'></script>
 
 <style>
 	@import url('https://max.pub/css/base.css');
@@ -37,11 +34,12 @@
 		text-align: center;
 	}
 
-	td[id] {
-		padding-right: .5rem;
+	td {
+		padding: .2rem .5rem;
+		vertical-align: middle;
 	}
 
-	h1,
+
 	h2,
 	h3 {
 		margin-top: 5rem;
@@ -60,30 +58,87 @@
 	.unicode {
 		font-size: 30px;
 	}
+
+	/* .xdate,.xtime,.xlat,.xlon{
+		font-family: var(--monospace, inconsolata);
+	} */
+	.xtime::before {
+		content: '⬤'
+	}
+
+	.xdate::before {
+		content: '▮';
+		/* vertical-align: bottom; */
+		/* ☐◻◼⯀◼◼▮■⬜⬛ */
+		/* font-size: 1.5em; */
+	}
+
+	.xlat::before {
+		/* ▽⯆⏷ */
+		content: '▼'
+	}
+
+	.xlon::before {
+		/* ▷▶ */
+		content: '▶'
+	}
+
+	/* &xcirc; */
+	/* &bigtriangledown; */
+	/* ⚪
+	⚫
+	⬤ */
 </style>
 
 <article>
 	<section>
-		<h1>Place + Time </h1>
+		<h1>Place + Time</h1>
 		<p>
-			This is an attempt to unify and shorten place &amp; time notation.
+			This is an attempt to unify and shorten place &amp; time notation. <br />
 			It looks like this:
+			▮wEu ⬤IjS ▼JKD ▶BQI
+
+
 		</p>
+		classic:
+		<div class='monospace'>
+			<span id='date-orig'></span>,
+			<span id='time-orig'></span>.
+			<span id='lat-orig'></span> /
+			<span id='lon-orig'></span>
+		</div>
+		<br/>
+
+		modern:
+		<div class='monospace'>
+			<span id='date-code' class='xdate'></span>
+			<span id='time-code' class='xtime'></span>
+			<span id='lat-code' class='xlat'></span>
+			<span id='lon-code' class='xlon'></span>
+		</div>
+
+		<br/>
+		<br/>
+		<br/>
+
+
 		<!-- https://www.compart.com/en/unicode/search?q=circle#characters -->
+		<!-- ☐wEt ⭘Ruq ▽IjR ▷BQK -->
+
 		<table class='monospace'>
 			<tr>
 				<!-- &#9634;&#11036; -->
-				<td class='unicode'>&#9744;</td>
-				<td id='date-code'></td>
+				<!-- <td class='unicode'>&#9744;</td> -->
+				<td id='date-code' class='xdate'></td>
 				<!-- &#9711;&#9675; -->
-				<td class='unicode'>&#11096;</td>
-				<td id='time-code'></td>
+				<!-- <td class='unicode'>&#11096;</td> -->
+				<td id='lat-code' class='xlat'></td>
 			</tr>
 			<tr>
-				<td class='unicode'>&#9661;</td>
-				<td id='lat-code'></td>
-				<td class='unicode'>&#9655;</td>
-				<td id='lon-code'></td>
+				<td id='time-code' class='xtime'></td>
+				<!-- <td class='unicode'>&#9661;</td> -->
+				<!-- <td class='unicode'>&#9655;</td> -->
+				<td id='lon-code' class='xlon'></td>
 			</tr>
 		</table>
 
@@ -93,10 +148,10 @@
 		<table class='monospace'>
 			<tr>
 				<td id='date-orig'></td>
-				<td id='time-orig'></td>
+				<td id='lat-orig'></td>
 			</tr>
 			<tr>
-				<td id='lat-orig'></td>
+				<td id='time-orig'></td>
 				<td id='lon-orig'></td>
 			</tr>
 		</table>
@@ -112,60 +167,50 @@
 		<table id='icons' class='monospace'>
 			<tr>
 				<th>Icon</th>
-				<th></th>
+				<th>Name</th>
 				<th>Symbol</th>
-				<th>Unicode</th>
-				<th></th>
 			</tr>
 			<tr>
 				<td><img src='ico/calendar.png' /></td>
-				<td>&rarr;</td>
-				<td class='unicode'>&#9744;</td>
-				<td>&amp;#9744;</td>
 				<td>DATE</td>
+				<td class='xdate'> </td>
 			</tr>
 			<tr>
 				<td><img src='ico/clock.png' /></td>
-				<td>&rarr;</td>
-				<td class='unicode'>&#11096;</td>
-				<td>&amp;#11096;</td>
 				<td>TIME</td>
+				<td class='xtime'></td>
 			</tr>
 			<tr>
 				<td><img src='ico/location.png' /></td>
-				<td>&rarr;</td>
-				<td class='unicode'>&#9661;</td>
-				<td>&amp;#9661;</td>
 				<td>LATITUDE</td>
+				<td class='xlat'></td>
 			</tr>
 			<tr>
 				<td><img src='ico/location.png' style="transform: rotate(270deg);" /></td>
-				<td>&rarr;</td>
-				<td class='unicode'>&#9655;</td>
-				<td>&amp;#9655;</td>
 				<td>LONGITUDE</td>
+				<td class='xlon'></td>
 			</tr>
 		</table>
 		<!-- </div> -->
 
 
 		<p>
-			Properly arranged it looks as follows
+			together it looks like this:
 		</p>
 
 
 		<table class='monospace'>
 			<tr>
-				<td>&#9634;</td>
-				<td>DATE</td>
-				<td>&#9711;</td>
-				<td>TIME</td>
+				<!-- <td>&#9634;</td> -->
+				<td class='xdate'>DATE</td>
+				<!-- <td>&#9711;</td> -->
+				<td class='xtime'>TIME</td>
 			</tr>
 			<tr>
-				<td>&#9661;</td>
-				<td>LAT</td>
-				<td>&#9655;</td>
-				<td>LON</td>
+				<!-- <td>&#9661;</td> -->
+				<td class='xlat'>LAT</td>
+				<!-- <td>&#9655;</td> -->
+				<td class='xlon'>LON</td>
 			</tr>
 		</table>
 
@@ -206,7 +251,7 @@
 	</section>
 
 	<section>
-		<h2>&#9634; Date</h2>
+		<h2 class='xdate'> Date</h2>
 		<div id='date-orig' onkeyup="encode('date')" contenteditable="true"></div>
 		<div>&ShortDownArrow;</div>
 		<div id='date-code' onkeyup="decode('date')" contenteditable="true"></div>
@@ -231,7 +276,8 @@
 	</section>
 
 	<section>
-		<h2>&xcirc; Time</h2>
+		<h2 class='xtime'> Time</h2>
+
 		<div id='time-orig' onkeyup="encode('time')" onfocus='userTime=true;' contenteditable="true"></div>
 		<div>&ShortDownArrow;</div>
 		<div id='time-code' onkeyup="decode('time')" contenteditable="true"></div>
@@ -245,7 +291,9 @@
 	</section>
 
 	<section>
-		<h2>&bigtriangledown; Latitude</h2>
+		<h2 class='xlat'> Latitude</h2>
+		<span id='lat-orig'></span> &rarr; <span id='lat-code' class='xlat'></span>
+
 		<table id='position'>
 			<tr>
 				<td>
@@ -271,21 +319,24 @@
 			one decimal).
 		</p>
 		<p>
-			One digit has an accuracy of 666km.
-			Two digits have an accuracy of 11km.
-			Three digits have an accuracy of 180m.
-			Four digits have an accuracy of 3m.
-			Five digits have an accuracy of 5cm.
+			<li>One digit has an accuracy of 666km.
+			<li>Two digits have an accuracy of 11km.
+			<li>Three digits have an accuracy of 180m.
+			<li>Four digits have an accuracy of 3m.
+			<li>Five digits have an accuracy of 5cm.
 		</p>
 	</section>
 
 
 	<section>
-		<h2>&#9655; Longitude</h2>
+		<h2 class='xlon'> Longitude</h2>
 	</section>
 </article>
 
 
+<!-- <script src='./date.format.js'></script> -->
+<script src='dts.js'></script>
+<script src='P60.js'></script>
 
 <script>
 	$ = id => document.getElementById(id);
@@ -306,7 +357,7 @@
 	userTime = false;
 	updateTime = () => {
 		if (userTime) return;
-		SET('time-orig', new Date().format('hh:mm:ss')); //dt[1].replace('.',':').replace('.',':');
+		SET('time-orig', new Date().toISOString().slice(11, 19)); //dt[1].replace('.',':').replace('.',':');
 		ENC('time', DTS.time.encode);
 		// encode('time');
 		// copyCode('time');
@@ -314,22 +365,21 @@
 	updateTime();
 	setInterval(updateTime, 1000);
 
-	SET('date-orig', new Date().format('YYYY-MM-DD'));
+	SET('date-orig', new Date().toISOString().slice(0, 10));
 	ENC('date', DTS.date.encode);
 	// $('date').innerHTML = new Date().format('YYYY-MM-DD'); 
 	// encode('date');
 	// copyCode('date');
 
-	fetch('https://api.max.pub/geoip/').then(x => x.json())
-		.then(data => {
-			SET('lat-orig', data.lat + '' + (Math.floor(Math.random() * 10) + ''));//.padStart(4,'0');
-			ENC('lat', P60.enc);
-			// copyCode('lat');
+	fetch('https://api.max.pub/geoip/').then(x => x.json()).then(data => {
+		SET('lat-orig', data.lat + '' + (Math.floor(Math.random() * 10) + ''));//.padStart(4,'0');
+		ENC('lat', P60.enc);
+		// copyCode('lat');
 
-			SET('lon-orig', data.lon + '' + Math.floor(Math.random() * 10));
-			ENC('lon', P60.enc);
-			// copyCode('lon');
-		})
+		SET('lon-orig', data.lon + '' + Math.floor(Math.random() * 10));
+		ENC('lon', P60.enc);
+		// copyCode('lon');
+	})
 
 
 
