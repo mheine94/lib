@@ -10,3 +10,18 @@ Array.prototype.shuffle = function () {
 	}
 	return a;
 }
+
+
+Array.prototype.trim = function () {
+	return this.map(x => x.trim());
+}
+
+Array.prototype.clearEmpty = function () {
+	return this.filter(x => x);
+}
+Array.prototype.intersection = function (other) {
+	return this.filter(value => other.includes(value))
+}
+Array.prototype.union = function (other) {
+	return [...this, ...other]
+}
