@@ -43,8 +43,12 @@ Object.defineProperties(Array.prototype, {
 
 
 export function array(a) {
-	return Array.isArray(a) ? a : [];
+	if (!a) return []; // null, undefined, NaN return empty array
+	if (Array.isArray(a)) return a;
+	if (a * 1 == a) return Array(a)
+	return Array.from(a);
 }
+
 export function intersection(...arrays) {
 	// if (arrays.length < 2) return [];
 	let output = arrays[0] ?? [];
@@ -53,6 +57,10 @@ export function intersection(...arrays) {
 	return output;
 }
 
+// https://stackoverflow.com/questions/12303989/cartesian-product-of-multiple-arrays-in-javascript
+export function cartesian(...a) {
+	return a.reduce((a, b) => a.flatMap(d => b.map(e => [d, e].flat())));
+}
 
 
 
