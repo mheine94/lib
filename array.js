@@ -25,6 +25,16 @@ Object.defineProperties(Array.prototype, {
 			return [...this, ...other]
 		}
 	},
+	first: {
+		value: function (def = '') {
+			return this[0] ?? def;
+		}
+	},
+	last: {
+		value: function (def = '') {
+			return this.slice(-1)[0] ?? def;
+		}
+	},
 	shuffle: {
 		value: function () {
 			let a = JSON.parse(JSON.stringify(this)); // deep copy
