@@ -25,4 +25,11 @@ Object.defineProperties(String.prototype, {
 			// .flat();
 		}
 	},
+
+	clearTags: {
+		value: function () {
+			return this.replace(/<.*?>/g, '')
+		}
+	},
+
 });
