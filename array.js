@@ -5,6 +5,13 @@ Object.defineProperties(Array.prototype, {
 			return this.map(x => x.trim());
 		}
 	},
+	remove: {
+		value: function (val) {
+			let index = this.indexOf(val)
+			if (index < 0) return this;
+			return [...this.slice(0, index), ...this.slice(index + 1)]
+		}
+	},
 	unique: {
 		value: function () {
 			return [...new Set(this)]
