@@ -75,10 +75,11 @@ export function intersection(...arrays) {
 }
 
 // https://stackoverflow.com/questions/12303989/cartesian-product-of-multiple-arrays-in-javascript
-export function cartesian(...a) {
-	a = a.filter(x=>x.length)
+export 
+function cartesian(...a) {
+	a = a.filter(x => x.length)
 	// console.log(a)
-	if (a.length == 1) return a[0].map(x => [x])
+	if (a.length <= 1) return (a[0] ?? []).map(x => [x])
 	return a.filter(x => x.length).reduce((acc, val) => acc.flatMap(d => val.map(e => [d, e].flat())));
 }
 
