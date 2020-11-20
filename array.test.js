@@ -7,3 +7,4 @@ console.log([1, 2, 3].remove(4))
 
 console.log(cartesian([1,2],[1,2,3,4],[1,2,3]))
 console.log(cartesian([1,2],[1,2,3,4],[]))
+console.log(cartesian([1,2],[],[]))
