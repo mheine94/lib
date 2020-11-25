@@ -5,6 +5,13 @@ Object.defineProperties(Array.prototype, {
 			return this.map(x => x.trim());
 		}
 	},
+	remove: {
+		value: function (val) {
+			let index = this.indexOf(val)
+			if (index < 0) return this;
+			return [...this.slice(0, index), ...this.slice(index + 1)]
+		}
+	},
 	unique: {
 		value: function () {
 			return [...new Set(this)]
@@ -25,6 +32,16 @@ Object.defineProperties(Array.prototype, {
 			return [...this, ...other]
 		}
 	},
+	first: {
+		value: function (def = '') {
+			return this[0] ?? def;
+		}
+	},
+	last: {
+		value: function (def = '') {
+			return this.slice(-1)[0] ?? def;
+		}
+	},
 	shuffle: {
 		value: function () {
 			let a = JSON.parse(JSON.stringify(this)); // deep copy
@@ -43,8 +60,12 @@ Object.defineProperties(Array.prototype, {
 
 
 export function array(a) {
-	return Array.isArray(a) ? a : [];
+	if (!a) return []; // null, undefined, NaN return empty array
+	if (Array.isArray(a)) return a;
+	if (a * 1 == a) return Array(a)
+	return Array.from(a);
 }
+
 export function intersection(...arrays) {
 	// if (arrays.length < 2) return [];
 	let output = arrays[0] ?? [];
@@ -53,6 +74,14 @@ export function intersection(...arrays) {
 	return output;
 }
 
+// https://stackoverflow.com/questions/12303989/cartesian-product-of-multiple-arrays-in-javascript
+export 
+function cartesian(...a) {
+	a = a.filter(x => x.length)
+	// console.log(a)
+	if (a.length <= 1) return (a[0] ?? []).map(x => [x])
+	return a.filter(x => x.length).reduce((acc, val) => acc.flatMap(d => val.map(e => [d, e].flat())));
+}
 
 
 

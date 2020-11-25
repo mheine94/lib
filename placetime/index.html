@@ -63,6 +63,7 @@
 		font-family: var(--monospace, inconsolata);
 	} */
 	.xtime::before {
+		/* ⚪⚫⬤ */
 		content: '⬤'
 	}
 
@@ -75,21 +76,18 @@
 	}
 
 	.xlat::before {
-		/* ▽⯆⏷ */
-		content: '▼'
+		/* ▽⯆⯆⏷ */
+		content: '⯆'
 	}
 
 	.xlon::before {
 		font-family: var(--monospace, inconsolata);
-		/* ▷▶ */
-		content: '▶'
+		/* ▷▶⯈ */
+		content: '⯈'
 	}
 
 	/* &xcirc; */
 	/* &bigtriangledown; */
-	/* ⚪
-	⚫
-	⬤ */
 </style>
 
 <article>
@@ -113,7 +111,7 @@
 		<br />
 
 		modern:
-		<div class='monospace'>
+		<div class='monospace copy'>
 			<span id='date-code' class='xdate'></span>
 			<span id='time-code' class='xtime'></span>
 			<span id='lat-code' class='xlat'></span>
@@ -345,6 +343,8 @@
 	$ = id => document.getElementById(id);
 	$$ = q => document.querySelectorAll(q);
 
+
+	document.querySelectorAll('.copy').forEach(node => node.addEventListener('click', event => import('https://max.pub/lib/data.js').then(mod => mod.copy(node.textContent))))
 	// encode = k => $(k+'Code').innerHTML = DTS[k].encode($(k).innerHTML);
 	// decode = k => $(k).innerHTML = DTS[k].decode($(k+'Code').innerHTML);
 	// copyCode = (k) => $(k+'-code').innerHTML = $(k+'Code').innerHTML;
