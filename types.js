@@ -17,7 +17,8 @@ const tests = {
 	email: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
 	phone: /\+\d{1,3}\s\d+\s\d+/,    // https://en.wikipedia.org/wiki/E.123
 }
-
+// ↦  tab    ⇥
+// ↩  enter  ↵
 export default function (string) {
 	string = String(string);
 	// if (!string) return '';
@@ -26,4 +27,23 @@ export default function (string) {
 			return name;
 	}
 	return 'string';
+}
+
+const superTypes = {
+	date: 'time',
+	time: 'time',
+	datetime: 'time',
+	int: 'number',
+	real: 'number',
+	range: 'number',
+	bool: 'bool',
+	letters : 'string',
+	hexColor: 'color',
+	url: 'contact',
+	email: 'contact',
+	phone: 'contact',
+}
+
+export function superType(type){
+	return superTypes[type] ?? '';
 }
