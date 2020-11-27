@@ -1,5 +1,10 @@
 <noti-fy></noti-fy>
 <script type='module'>
-	import  notify from './notify.js';
+	import notify from './notify.js';
 	notify('jojo')
+	window.dispatchEvent(new CustomEvent("notification", {
+		detail: {
+			text: 'event sent'
+		}
+	}))
 </script>

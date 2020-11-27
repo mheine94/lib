@@ -27,10 +27,10 @@ let STYLE = document.createElement('style');
 STYLE.appendChild(document.createTextNode(`:host {
 		display: inline-block;
 		position: fixed;
-		top: var(--top);
+		top: var(--top, 0);
 		bottom: var(--bottom);
 		left: var(--left);
-		right: var(--right);
+		right: var(--right, 0);
 		font-family: Arial, Helvetica, sans-serif;
 	}
 	div {
