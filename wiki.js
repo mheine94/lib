@@ -40,6 +40,124 @@ export async function languages(language, title, options = {}) {
 	return options.raw ? output : Object.fromEntries(output.map(x => [x.lang, x['*']]));
 }
 
+function extractBoxText(text){
+	//escape newlines
+	let escapedText = text.replace(/(?<=[^\\])\n/g,"\\n")
+	let boxLocalisations = ["Infobox","Ficha"]
+	const regex = (boxLocalisation)=>`{{(${boxLocalisation}.*)\\\\n}}(?:\\s)*\\\\n`
+
+	let result;
+
+	//Try to find Infobox first then Ficha
+	if(!(result=(new RegExp(regex(boxLocalisations[0]))).exec(escapedText))){
+		result=(new RegExp(regex(boxLocalisations[1]))).exec(escapedText)
+	}
+	//return the group
+	result = result? result[1]: null
+	return result
+}
+function extractBracketExpressions(text){
+	let textCopy = text
+	const regex = /{{[^{}]*?}}|\[\[[^\[\]]*?\]\]/gm;
+	let matchIndex = 0
+	let matchName = (index)=> `_match_${index}`
+	let m;
+	let boxes= {}
+	while ((m = regex.exec(textCopy)) !== null) {
+		// This is necessary to avoid infinite loops with zero-width matches
+		if (m.index === regex.lastIndex) {
+			regex.lastIndex++;
+		}
+		
+		if(m && m[0]){
+			let currentMatchName = matchName(matchIndex++)
+			//console.log(`Found and replace match ${m[0]}`)
+			textCopy = textCopy.replace(m[0],currentMatchName)
+			boxes[currentMatchName] = m[0]
+		}
+		// The result can be accessed through the `m`-variable.
+		m.forEach((match, groupIndex) => {
+			//console.log(`Found match, group ${groupIndex}: ${match}`);
+		});	
+	}
+	while ((m = regex.exec(textCopy)) !== null) {
+		// This is necessary to avoid infinite loops with zero-width matches
+		if (m.index === regex.lastIndex) {
+			regex.lastIndex++;
+		}
+		
+		if(m && m[0]){
+			let currentMatchName = matchName(matchIndex++)
+			//console.log(`Found and replace match ${m[0]}`)
+			textCopy = textCopy.replace(m[0],currentMatchName)
+			boxes[currentMatchName] = m[0]
+		}
+		// The result can be accessed through the `m`-variable.
+		m.forEach((match, groupIndex) => {
+			//console.log(`Found match, group ${groupIndex}: ${match}`);
+		});	
+	}
+	let result = { text:textCopy, subBoxCount:matchIndex ,subBoxes:boxes}
+	return result
+}
+
+function buildResult(data,subboxes){
+	let result = Object.keys(data).reduce((p,c)=>{
+		//parse list entrys
+		let listSplit = data[c]?.split("*")
+		if(listSplit.length > 1){
+			p[c] = listSplit.map(e=> resubstitude(e,subboxes)?.trim()).filter(e=>e?true:false)
+		}else{
+			p[c] = resubstitude(data[c],subboxes)?.trim()
+		}
+	return p	 
+	},{})
+	return result;
+}
+
+
+function resubstitude(text,subboxes){
+	if(!subboxes){
+		return text
+	}
+		let regex = /_match_\d{1,5}/
+		let m;
+		let value = text;
+		while ((m = regex.exec(value)) !== null) {
+			// This is necessary to avoid infinite loops with zero-width matches
+			if (m.index === regex.lastIndex) {
+				regex.lastIndex++;
+			}
+			
+			if(m && m[0]){
+				//console.log(`Found and replace match ${m[0]}`)
+				value = value.replace(m[0], subboxes[m[0]])
+			}
+			
+		}
+		
+		return value
+}
+
+
+export function parseBox(text){
+	let infoBoxText = extractBoxText(text)
+	let extractedSubboxes = extractBracketExpressions(infoBoxText)
+	let fieldSplit = extractedSubboxes?.text?.split("|")
+	fieldSplit = fieldSplit.slice(1,fieldSplit.length)
+	fieldSplit = fieldSplit.map(e=> e.replace("\\n","").trim()).filter(e=>e.length>0)
+	let boxObj = fieldSplit.reduce((o,f)=>{
+		let keyValSplit = f.split("=")
+		if(keyValSplit.length> 0){
+			o[keyValSplit[0]]= keyValSplit[1] ?? null 
+		}
+		return o
+	},{})
+	let result = buildResult(boxObj,extractedSubboxes.subBoxes)
+	return result
+}
+
+
 export default {
-	search, page, category, languages
+	search, page, category, languages, parseBox
 }
