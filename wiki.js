@@ -106,9 +106,9 @@ function buildResult(data,subboxes){
 		//parse list entrys
 		let listSplit = data[c]?.split("*")
 		if(listSplit.length > 1){
-			p[c] = listSplit.map(e=> resubstitude(e,subboxes)?.trim()).filter(e=>e?true:false)
+			p[c] = listSplit.map(e=> resubstitude(e,subboxes)?.trim().replace(/\n|\\n|\\\\n/,"")).filter(e=>e?true:false)
 		}else{
-			p[c] = resubstitude(data[c],subboxes)?.trim()
+			p[c] = resubstitude(data[c],subboxes)?.trim().replace(/\n|\\n|\\\\n/,"")
 		}
 	return p	 
 	},{})
@@ -145,7 +145,7 @@ export function parseBox(text){
 	let extractedSubboxes = extractBracketExpressions(infoBoxText)
 	let fieldSplit = extractedSubboxes?.text?.split("|")
 	fieldSplit = fieldSplit.slice(1,fieldSplit.length)
-	fieldSplit = fieldSplit.map(e=> e.replace("\\n","").trim()).filter(e=>e.length>0)
+	fieldSplit = fieldSplit.map(e=> e.trim()).filter(e=>e.length>0)
 	let boxObj = fieldSplit.reduce((o,f)=>{
 		let keyValSplit = f.split("=")
 		if(keyValSplit.length> 0){
@@ -156,7 +156,6 @@ export function parseBox(text){
 	let result = buildResult(boxObj,extractedSubboxes.subBoxes)
 	return result
 }
-
 
 export default {
 	search, page, category, languages, parseBox
